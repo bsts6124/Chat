@@ -1,0 +1,109 @@
+﻿<Window x:Class="Client.UserAddWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        xmlns:local="clr-namespace:Client"
+        mc:Ignorable="d"
+        Visibility="Visible" ShowInTaskbar="True" AllowsTransparency="True" WindowStyle="None"
+        Title="UserAddWindow" Height="450" Width="600">
+    <Window.Resources>
+        <local:GridVisibilityConverter x:Key="GridVisibleConverter"/>
+        <local:AddWindowButtonMarginConverter x:Key="ButtonConverter"/>
+        <local:AddWindowFindBoxMarginConverter x:Key="BoxConverter"/>
+        <local:ListHeightConverter x:Key="HeightConverter"/>
+        <BitmapImage x:Key="Magnifier" UriSource="/Resources/magnifier.png"/>
+        
+        <Style TargetType="Button">
+            <Style.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="10"/>
+                </Style>
+            </Style.Resources>
+        </Style>
+    </Window.Resources>
+
+    <Border BorderThickness="1" BorderBrush="Black">
+        <StackPanel >
+            <Grid Name="NameGrid" Height="40" Visibility="{Binding Path=RoomNum, Converter={StaticResource GridVisibleConverter}}">
+                <TextBlock Text="방 이름" FontSize="15" Width="100" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20,0,0,0"/>
+                <Border BorderThickness="1" BorderBrush="Black" CornerRadius="15" HorizontalAlignment="Right" Width="400" VerticalAlignment="Center" Margin="0,0,25,0">
+
+                    <TextBox Margin="5,5" BorderBrush="Transparent" FontSize="15" Text="{Binding roomName}"/>
+                </Border>
+            </Grid>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+
+
+                <Border Grid.Column="0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="240" Height="{Binding Path=RoomNum, Converter={StaticResource HeightConverter}}" Margin="20, 15" BorderThickness="1" BorderBrush="Black">
+                    <TreeView Name="OrganChart" ItemsSource="{Binding Source={x:Static local:MainManager.Instance}, Path=Charts}" >
+                        <TreeView.ItemContainerStyle>
+                            <Style TargetType="{x:Type TreeViewItem}">
+                                <!--<EventSetter Event="PreviewMouseRightButtonDown" Handler="OnPreviewMouseRightButtonDown"/>-->
+                                <!--<EventSetter Event="MouseDoubleClick" Handler="TreeViewItem_MouseDoubleClick"/>-->
+                                <!--<EventSetter Event="Expanded" Handler="TreeViewItem_Expanded"/>-->
+                                <!--<EventSetter Event="MouseDown" Handler="TreeViewItem_MouseDown"/>-->
+                            </Style>
+                        </TreeView.ItemContainerStyle>
+                        <TreeView.ItemTemplate>
+                            <HierarchicalDataTemplate DataType="{x:Type local:TreeItems}"  ItemsSource="{Binding Items}">
+                                <TextBlock Text="{Binding Path=Title}">
+                        <!--<i:Interaction.Triggers>
+                            <i:EventTrigger EventName="PreviewMouseRightButtonDown">
+                                <ei:CallMethodAction TargetObject="{Binding TreeViewItem}" MethodName="OnPreviewMouseRightButtonDown"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>-->
+                                </TextBlock>
+                            </HierarchicalDataTemplate>
+                        </TreeView.ItemTemplate>
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectedItemChanged">
+                                <i:InvokeCommandAction Command="{Binding SelectedTreeItemChangedCommand}" CommandParameter="{Binding ElementName=OrganChart, Path=SelectedItem}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </TreeView>
+                </Border>
+
+                <Border Grid.Column="0" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="240" Height="30" Margin="{Binding Path=RoomNum, Converter={StaticResource BoxConverter}}" BorderThickness="1" BorderBrush="Black" CornerRadius="15">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="{StaticResource Magnifier}" Stretch="Uniform" Margin="2,0,0,0" />
+                        <TextBox BorderBrush="Transparent" Width="190" Margin="1,0,0,0" FontSize="15" VerticalAlignment="Center"/>
+                    </StackPanel>
+                    <!--<TextBox BorderBrush="Transparent" Width="240"  >
+                <TextBox.Background>
+                    <SolidColorBrush Color="Transparent"/>
+                    <ImageBrush ImageSource="{StaticResource Magnifier}" Stretch="Uniform" AlignmentX="Left"/>
+                </TextBox.Background>
+            </TextBox>-->
+                </Border>
+
+                <Border Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="20, 15" Width="240" Height="{Binding Path=RoomNum, Converter={StaticResource HeightConverter}}" BorderThickness="1" BorderBrush="Black">
+                    <ListView Name="AddList" ItemsSource="{Binding AddUsers}" SelectionMode="Single">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Title}"/>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectionChanged">
+                                <i:InvokeCommandAction Command="{Binding SelectedListItemChangedCommand}" CommandParameter="{Binding ElementName=AddList, Path=SelectedItems}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </ListView>
+                </Border>
+
+                <Button Content="확인" Command="{Binding ApplyCommand}"  Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="{Binding Path=RoomNum, Converter={StaticResource ButtonConverter}}" Width="80" Height="40"/>
+                <Button Content="취소" Command="{Binding CancleCommand}" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="{Binding Path=RoomNum, Converter={StaticResource ButtonConverter}}" Width="80" Height="40"/>
+
+                <Button Grid.Column="0" Command="{Binding AddCommand}" Grid.ColumnSpan="2" Content="추가" HorizontalAlignment="Center" VerticalAlignment="Top" Height="40" Width="60" Margin="110"/>
+                <Button Grid.Column="0" Command="{Binding DeleteCommand}" Grid.ColumnSpan="2" Content="삭제" HorizontalAlignment="Center" VerticalAlignment="Top" Height="40" Width="60" Margin="200"/>
+            </Grid>
+        </StackPanel>
+    </Border>
+</Window>

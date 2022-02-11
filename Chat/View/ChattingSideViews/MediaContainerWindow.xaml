@@ -1,0 +1,29 @@
+﻿<Window x:Class="Client.MediaContainerWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Client"
+        mc:Ignorable="d"
+        ShowInTaskbar="False" AllowsTransparency="True" WindowStyle="None"
+        Title="MediaContainerWindow" Height="450" Width="800">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Rectangle Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Fill="Transparent" MouseLeftButtonDown="Rectangle_MouseLeftButtonDown" StrokeThickness="1" Stroke="Gray"/>
+
+        <ListView Grid.Row="1" Grid.Column="0">
+            
+        </ListView>
+
+        
+    </Grid>
+</Window>

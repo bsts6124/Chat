@@ -1,0 +1,33 @@
+﻿<Window x:Class="Client.LogInWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:w="clr-namespace:Util"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Client"
+        mc:Ignorable="d"
+        MouseLeftButtonDown="Window_MouseLeftButtonDown"
+        Title="LogInWindow" Height="480" Width="270" MinHeight="480" MinWidth="270" BorderThickness="1" BorderBrush="White" Visibility="Visible" ShowInTaskbar="True" AllowsTransparency="True" WindowStyle="None" 
+        >
+    
+    <Grid>
+        <Rectangle Fill="Black" Height="2" VerticalAlignment="Top" w:WindowResizer.Direction="Top"/>
+        <Rectangle Fill="Black" Height="2" VerticalAlignment="Bottom" w:WindowResizer.Direction="Bottom"/>
+        <Rectangle Fill="Black" Width="2" HorizontalAlignment="Left" w:WindowResizer.Direction="Left"/>
+        <Rectangle Fill="Black" Width="2" HorizontalAlignment="Right" w:WindowResizer.Direction="Right"/>
+
+        <Rectangle Fill="Black" Height="2" Width="2" VerticalAlignment="Top" HorizontalAlignment="Left" w:WindowResizer.Direction="TopLeft"/>
+        <Rectangle Fill="Black" Height="2" Width="2" VerticalAlignment="Top" HorizontalAlignment="Right" w:WindowResizer.Direction="TopRight"/>
+        <Rectangle Fill="Black" Height="2" Width="2" VerticalAlignment="Bottom" HorizontalAlignment="Left" w:WindowResizer.Direction="BottomLeft"/>
+        <Rectangle Fill="Black" Height="2" Width="2" VerticalAlignment="Bottom" HorizontalAlignment="Right" w:WindowResizer.Direction="BottomRight"/>
+
+        <TextBox HorizontalAlignment="Center" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Margin="103,195,0,0" Text="{Binding UserName, UpdateSourceTrigger=PropertyChanged}"/>
+        <PasswordBox HorizontalAlignment="Center" Height="23" VerticalAlignment="Top" Password="" Width="120" Margin="103,223,0,0" PasswordChanged="PasswordChange" PasswordChar="●" Name="pswbox"/>
+        <TextBlock HorizontalAlignment="Center" Height="73" Margin="85,62,69,0" TextWrapping="Wrap" Text="TALK" VerticalAlignment="Top" Width="114" FontSize="50"/>
+        <TextBlock HorizontalAlignment="Center" Height="23" Margin="47,196,156,0" TextWrapping="Wrap" Text="ID" VerticalAlignment="Top" Width="57"/>
+        <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="PW" VerticalAlignment="Top" Margin="47,224,156,0" Height="23" Width="57"/>
+        <Button Content="로그인" HorizontalAlignment="Center" Height="34" Margin="75,266,65,0" VerticalAlignment="Top" Width="120" IsDefault="True" Command ="{Binding LoginCommand}" CommandParameter="{Binding ElementName=pswbox}"/>
+        <Button Content="Close" HorizontalAlignment="Right" VerticalAlignment="Top" Height="20" Width="20" Click="Button_Click"/>
+        <Button Content="Minimize" HorizontalAlignment="Right" VerticalAlignment="Top" Height="20" Width="20" Command="{Binding MinimizeCommand}" Margin="0,0,20,0"/>
+    </Grid>
+</Window>
